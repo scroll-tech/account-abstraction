@@ -50,6 +50,10 @@ const config: HardhatUserConfig = {
   },
   networks: {
     dev: { url: 'http://localhost:8545' },
+    scroll: {
+      url: process.env.SCROLL_L2_DEPLOYMENT_RPC,
+      accounts: [process.env.L2_DEPLOYER_PRIVATE_KEY as string]
+    },
     // github action starts localgeth service, for gas calculations
     localgeth: { url: 'http://localgeth:8545' },
     goerli: getNetwork('goerli'),
