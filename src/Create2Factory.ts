@@ -98,11 +98,13 @@ export class Create2Factory {
     if (await this._isFactoryDeployed()) {
       return
     }
-    await (signer ?? this.signer).sendTransaction({
+    let tx = await (signer ?? this.signer).sendTransaction({
       to: Create2Factory.factoryDeployer,
       value: BigNumber.from(Create2Factory.factoryDeploymentFee)
     })
-    await this.provider.sendTransaction(Create2Factory.factoryTx)
+    await tx.wait(1)
+    tx = await this.provider.sendTransaction(Create2Factory.factoryTx)
+    await tx.wait(1)
     if (!await this._isFactoryDeployed()) {
       throw new Error('fatal: failed to deploy deterministic deployer')
     }
